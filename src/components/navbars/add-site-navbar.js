@@ -17,7 +17,6 @@ const styles = StyleSheet.create({
 class AddSiteNavBar extends Component {
 
   render () {
-      console.log('Navbar props', this.props);
       return (
         <View style={ defaultNavStyles.container }>
 
