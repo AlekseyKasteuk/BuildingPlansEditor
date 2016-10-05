@@ -1,0 +1,48 @@
+source 'https://github.com/CocoaPods/Specs.git'
+# Uncomment this line to define a global platform for your project
+platform :ios, '8.0'
+
+target 'PlansEditor' do
+  # Uncomment this line if you're using Swift or would like to use dynamic frameworks
+  # use_frameworks!
+
+  # Pods for PlansEditor
+  pod 'React', path: '../node_modules/react-native', :subspecs => [
+    'Core',
+    'RCTActionSheet',
+    'RCTGeolocation',
+    'RCTImage',
+    'RCTLinkingIOS',
+    'RCTNetwork',
+    'RCTSettings',
+    'RCTText',
+    'RCTVibration',
+    'RCTWebSocket'
+  ]
+
+  # pod 'react-native-maps', :path => '../node_modules/react-native-maps'
+  # pod 'react-native-google-maps', :path => '../node_modules/react-native-maps'
+  pod 'GoogleMaps'
+
+  target 'PlansEditorTests' do
+    inherit! :search_paths
+    # Pods for testing
+    pod 'React', path: '../node_modules/react-native', :subspecs => [
+      'Core',
+      'RCTActionSheet',
+      'RCTGeolocation',
+      'RCTImage',
+      'RCTLinkingIOS',
+      'RCTNetwork',
+      'RCTSettings',
+      'RCTText',
+      'RCTVibration',
+      'RCTWebSocket'
+    ]
+
+    # pod 'react-native-maps', :path => '../node_modules/react-native-maps'
+    # pod 'react-native-google-maps', :path => '../node_modules/react-native-maps'
+    pod 'GoogleMaps'
+  end
+
+end

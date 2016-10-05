@@ -3,8 +3,12 @@ import {
   StyleSheet,
   Text,
   View,
-  MapView
+  Image,
+  ScrollView,
+  RefreshControl
 } from 'react-native'
+import MapView from 'react-native-maps'
+import { PROVIDER_GOOGLE, PROVIDER_DEFAULT } from 'react-native-maps'
 import { connect } from 'react-redux'
 import SitesNavBar from '../navbars/sites-navbar'
 
@@ -30,7 +34,6 @@ const styles = StyleSheet.create({
 class SitesView extends Component {
 
   getView () {
-    console.log(this.props.privateSites);
     if (this.props.privateSites.data.length) {
       return (
           <View style={ styles.siteCardsContainer }>
@@ -48,18 +51,35 @@ class SitesView extends Component {
     }
   }
 
+  _onRefresh () {
+    console.log(this);
+  }
+
   render () {
       return (
         <View style={ defaultPageStyles.pageWithStatusBar }>
           <SitesNavBar />
           <View style={ styles.pageContainer }>
             <View style={ styles.sitesListWrapper }>
-              { this.getView() }
+              <ScrollView
+                refreshControl={
+                  <RefreshControl
+                    refreshing={false}
+                    onRefresh={this._onRefresh.bind(this)}
+                  />
+                }
+              >
+                { this.getView() }
+              </ScrollView>
             </View>
-            <MapView
-              style={ styles.mapContainer }
-              showsUserLocation={true}
-            />
+              <MapView
+                ref="myMap"
+                style={styles.mapContainer}
+                showsUserLocation={true}
+                followsUserLocation={true}
+                provider={ PROVIDER_DEFAULT }
+              >
+              </MapView>
           </View>
         </View>
       );
