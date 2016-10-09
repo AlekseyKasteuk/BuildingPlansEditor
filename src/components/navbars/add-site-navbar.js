@@ -31,7 +31,7 @@ class AddSiteNavBar extends Component {
               underlayColor="#ffffff"
               name="close"
               color="#000"
-              style={ { backgroundColor: 'white', padding: 2 } }
+              style={ { backgroundColor: 'white', padding: 2, borderRadius: 0, borderWidth: 0 } }
               onPress={ () => {
                   Actions.dismiss();
                 }

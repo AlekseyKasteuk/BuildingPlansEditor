@@ -10,8 +10,10 @@ import {
 } from 'react-native'
 import { connect } from 'react-redux'
 import AddSiteNavBar from '../navbars/add-site-navbar'
-import { clearForm, changeSiteFormData } from '../../actions/add-site'
+import { addSite } from '../../util/storage'
+
 const defaultPageStyles = require('../../styles/default-page');
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -28,7 +30,8 @@ const styles = StyleSheet.create({
   },
   formRow: {
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'flex-start',
+    marginBottom: 5
   },
   formRowLabelContainer: {
     width: 100
@@ -69,13 +72,20 @@ const styles = StyleSheet.create({
 
 class AddSite extends Component {
 
-  componentWillMount () {
-    this.props.dispatch(clearForm());
-    console.log('Add site will mount');
+  constructor (props) {
+    super(props);
+    this.state ={
+      site: {
+        title: '',
+        address: '',
+        description: '',
+        image: 'default_building'
+      }
+    }
   }
 
-  saveSite () {
-    console.log('Save site');
+  saveSite = async () => {
+    console.log('Save site result:', await addSite(this.state.site));
   }
 
   getNewImage() {
@@ -90,7 +100,7 @@ class AddSite extends Component {
             <View style={{ padding: 5 }}>
               <TouchableOpacity onPress={ this.getNewImage }>
                 <Image
-                  source={ { uri: this.props.addSite.data.image } }
+                  source={ { uri: this.state.site.image } }
                   style={ styles.siteAvatar }
                 />
               </TouchableOpacity>
@@ -101,8 +111,8 @@ class AddSite extends Component {
                   <Text style={ styles.formRowLabel }>Title:</Text>
                 </View>
                 <View style={ styles.formRowValueContainer }>
-                  <TextInput value={ this.props.addSite.data.title } onChangeText={(text) => {
-                    this.props.dispatch(changeSiteFormData('title', text));
+                  <TextInput value={ this.state.site.title } onChangeText={(text) => {
+                    this.setState({ site: {...this.state.site, title: text } });
                   }} style={ styles.formRowValueInputText } placeholder="Title" />
                 </View>
               </View>
@@ -111,8 +121,8 @@ class AddSite extends Component {
                   <Text style={ styles.formRowLabel }>Address:</Text>
                 </View>
                 <View style={ styles.formRowValueContainer }>
-                  <TextInput value={ this.props.addSite.data.address } onChangeText={(text) => {
-                    this.props.dispatch(changeSiteFormData('address', text));
+                  <TextInput value={ this.state.site.address } onChangeText={(text) => {
+                    this.setState({ site: {...this.state.site, address: text } });
                   }} style={ styles.formRowValueInputText } placeholder="Address" />
                 </View>
               </View>
@@ -121,15 +131,15 @@ class AddSite extends Component {
                   <Text style={ styles.formRowLabel }>Description:</Text>
                 </View>
                 <View style={ styles.formRowValueContainer }>
-                  <TextInput value={ this.props.addSite.data.description } multiline={true} onChangeText={(text) => {
-                    this.props.dispatch(changeSiteFormData('description', text));
+                  <TextInput value={ this.state.site.description } multiline={true} onChangeText={(text) => {
+                    this.setState({ site: {...this.state.site, description: text } });
                   }} style={ [styles.formRowValueInputText, {height: 35}] } placeholder="Description" />
                 </View>
               </View>
             </View>
           </View>
           <View style={ styles.popupFooter }>
-            <TouchableOpacity style={ styles.popupFooterButton } onPress={ this.saveSite } disabled={ !this.props.addSite.data.address || !this.props.addSite.data.address }>
+            <TouchableOpacity style={ styles.popupFooterButton } onPress={ this.saveSite } disabled={ !this.state.site.address || !this.state.site.address }>
               <Text style={ styles.popupFooterButtonText } >Save</Text>
             </TouchableOpacity>
           </View>
@@ -142,7 +152,5 @@ class AddSite extends Component {
 module.exports = connect(
   (state) => {
     console.log('Connect state:', state);
-    return {
-      addSite: state.addSite
-    };
+    return {};
   })(AddSite);

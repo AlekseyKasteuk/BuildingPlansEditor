@@ -19,9 +19,9 @@ import {
 import { Provider } from 'react-redux'
 
 import AppRouter from './src/util/router'
-import AppStorage from './src/util/storage'
+import { getReduxStore } from './src/util/storage'
 
-const store = AppStorage.getReduxStore();
+const store = getReduxStore();
 
 class PlansEditor extends Component {
   render() {
